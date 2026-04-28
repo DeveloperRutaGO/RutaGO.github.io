@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel ="icon"  href="logo.png">
     <title>RutaGO | Tu Ruta, Sin Límites - Barranquilla</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -430,10 +429,38 @@
             transition: transform 0.1s linear;
         }
 
+        @media (max-width: 900px) {
+            .nav-links { display: none; }
+        }
+
         @media (max-width: 768px) {
             .nav-links { display: none; }
-            .hero h1 { font-size: 3.5rem; }
-            .contact-container { padding: 30px; }
+            nav { padding: 15px 5%; flex-wrap: wrap; }
+            .logo img { height: 35px; }
+            .logo span { font-size: 1.5rem; }
+            
+            .hero { padding: 100px 5% 50px 5%; height: auto; min-height: 100vh; }
+            .hero-card { padding: 30px; margin-top: 20px; }
+            .hero h1 { font-size: 2.5rem; }
+            .hero-card p.motto { font-size: 1rem; letter-spacing: 2px; }
+            .hero-card .hero-description { font-size: 1rem; margin-bottom: 25px; }
+            .hero-actions { flex-direction: column; gap: 15px; }
+            .hero-actions .cta-button { width: 100%; text-align: center; }
+            
+            section { padding: 60px 5%; }
+            .section-header h2 { font-size: 2.2rem; }
+            
+            #process-title { font-size: 2.5rem !important; }
+            #process-text { font-size: 1.1rem !important; }
+            
+            .services-grid { grid-template-columns: 1fr; }
+            .about-flex { gap: 30px; flex-direction: column; }
+            .about-content { text-align: center; }
+            
+            .contact-container { padding: 30px; grid-template-columns: 1fr; gap: 30px; }
+            
+            .chat-nav-btn { padding: 8px 15px !important; font-size: 0.85rem !important; margin-left: auto !important; }
+            .chat-nav-btn span { font-size: 1rem !important; }
         }
 
         /* AI Chat */
@@ -599,10 +626,10 @@
             <a href="#servicios">Servicios</a>
             <a href="#nosotros">Nosotros</a>
             <a href="#contacto">Contacto</a>
-            <button id="ai-chat-btn" class="cta-button" style="background: var(--surface-color); border: 2px solid var(--accent-cyan); color: var(--accent-cyan); display: flex; align-items: center; gap: 10px; padding: 10px 25px; margin-left: 10px;">
-                <span style="font-size: 1.2rem;">🤖</span> Chat con IA
-            </button>
         </div>
+        <button id="ai-chat-btn" class="cta-button chat-nav-btn" style="background: var(--surface-color); border: 2px solid var(--accent-cyan); color: var(--accent-cyan); display: flex; align-items: center; gap: 10px; padding: 10px 25px; margin-left: 10px;">
+            <span style="font-size: 1.2rem;">🤖</span> Chat con IA
+        </button>
     </nav>
 
     <section class="hero" id="hero">
