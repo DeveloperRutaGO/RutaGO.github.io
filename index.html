@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RutaGO | Tu Ruta, Sin Límites - Barranquilla</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #000a1a;
+            --surface-color: #00122e;
+            --primary-gradient: linear-gradient(135deg, #00d2ff 0%, #00ff88 100%);
+            --text-primary: #ffffff;
+            --text-secondary: #a0aec0;
+            --accent-cyan: #00d2ff;
+            --accent-green: #00ff88;
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+        }
+
+        /* Scrollbar Personalizada */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-cyan);
+            border-radius: 10px;
+        }
+
+        /* Navegación */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            background: rgba(0, 10, 26, 0.7);
+        }
+
+        nav.scrolled {
+            padding: 12px 5%;
+            background: rgba(0, 10, 26, 0.95);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 55px; /* Más grande y legible */
+            width: auto;
+            display: block;
+            filter: drop-shadow(0 0 10px rgba(0, 210, 255, 0.3));
+        }
+
+        .logo span {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 900;
+            font-size: 2.2rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+            display: inline-block;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            opacity: 0.8;
+        }
+
+        .nav-links a:hover {
+            opacity: 1;
+            color: var(--accent-cyan);
+        }
+
+        /* Hero Section Rediseñado (Uber-Style pero Mejor) */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0 8%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 20px; left: 20px; right: 20px; bottom: 20px; /* Margen para ver los bordes */
+            background: url('mapa.png') center/cover no-repeat;
+            opacity: 0.6;
+            z-index: -1;
+            filter: brightness(0.4) contrast(1.2);
+            border-radius: 40px; /* Bordes redondos */
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-card {
+            background: rgba(0, 18, 46, 0.7);
+            backdrop-filter: blur(20px);
+            padding: 60px;
+            border-radius: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 600px;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
+            z-index: 2;
+        }
+
+        .hero-card h1 {
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-card p.motto {
+            font-size: 1.2rem;
+            color: var(--accent-green);
+            font-weight: 700;
+            letter-spacing: 4px;
+            margin-top: 20px; /* Bajamos el texto un poco */
+            margin-bottom: 25px;
+        }
+
+        .hero-card .hero-description {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            padding: 18px 40px;
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--bg-color);
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+            box-shadow: 0 10px 30px rgba(0, 210, 255, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 210, 255, 0.5);
+        }
+
+        /* Secciones Generales */
+        section {
+            padding: 100px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .section-header .divider {
+            width: 80px;
+            height: 4px;
+            background: var(--primary-gradient);
+            margin: 0 auto;
+            border-radius: 2px;
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 3rem;
+            color: var(--accent-cyan);
+            margin-bottom: 5px;
+        }
+
+        .stat-item p {
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+        }
+
+        /* Servicios */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: var(--surface-color);
+            padding: 40px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--primary-gradient);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 0;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .service-card:hover::before {
+            opacity: 0.03;
+        }
+
+        .service-card * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--accent-cyan);
+        }
+
+        .service-card p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        /* Sobre Nosotros / IA */
+        .about-flex {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+
+        .about-content {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .about-content h2 {
+            margin-bottom: 20px;
+        }
+
+        .about-content p {
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 30px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .about-image::after {
+            content: '';
+            position: absolute;
+            inset: -15px;
+            border: 2px solid var(--accent-green);
+            border-radius: 40px;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        /* Contacto */
+        .contact-container {
+            background: var(--surface-color);
+            padding: 60px;
+            border-radius: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 60px;
+        }
+
+        .contact-info h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .contact-info p {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--text-secondary);
+        }
+
+        .contact-info strong {
+            color: var(--accent-cyan);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        input, textarea {
+            padding: 15px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            font-family: inherit;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        input:focus, textarea:focus {
+            border-color: var(--accent-cyan);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Footer */
+        footer {
+            padding: 60px 5%;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Animaciones */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .parallax-bg {
+            transform: translateY(0);
+            transition: transform 0.1s linear;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 3.5rem; }
+            .contact-container { padding: 30px; }
+        }
+
+        /* AI Chat */
+        #ai-chat-window {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background: var(--surface-color);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 210, 255, 0.3);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            z-index: 2000;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        #ai-chat-window.ai-chat-hidden {
+            opacity: 0;
+            transform: translateY(20px) scale(0.9);
+            pointer-events: none;
+        }
+
+        .chat-header {
+            background: var(--primary-gradient);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--bg-color);
+        }
+
+        .chat-title {
+            font-weight: 800;
+            font-family: 'Outfit', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .close-btn {
+            background: transparent;
+            border: none;
+            color: var(--bg-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+            line-height: 1;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .close-btn:hover {
+            opacity: 1;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 85%;
+            padding: 12px 16px;
+            border-radius: 15px;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.ai {
+            background: rgba(0, 210, 255, 0.1);
+            border-bottom-left-radius: 2px;
+            align-self: flex-start;
+            color: var(--text-primary);
+            border: 1px solid rgba(0, 210, 255, 0.2);
+        }
+
+        .message.user {
+            background: var(--primary-gradient);
+            color: var(--bg-color);
+            border-bottom-right-radius: 2px;
+            align-self: flex-end;
+            font-weight: 600;
+        }
+
+        .chat-input-area {
+            padding: 15px;
+            background: rgba(0, 10, 26, 0.8);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            gap: 10px;
+        }
+
+        #chat-input {
+            flex: 1;
+            padding: 12px 15px;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            outline: none;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+        }
+
+        #chat-input:focus {
+            border-color: var(--accent-cyan);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .send-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            color: var(--bg-color);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .send-btn:hover {
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 400px) {
+            #ai-chat-window {
+                width: calc(100% - 40px);
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="navbar">
+        <a href="#hero" class="logo">
+            <img src="logo.png" alt="RutaGO Logo">
+            <span>RUTAGO</span>
+        </a>
+        <div class="nav-links" style="align-items: center;">
+            <a href="#hero">Inicio</a>
+            <a href="#servicios">Servicios</a>
+            <a href="#nosotros">Nosotros</a>
+            <a href="#contacto">Contacto</a>
+            <button id="ai-chat-btn" class="cta-button" style="background: var(--surface-color); border: 2px solid var(--accent-cyan); color: var(--accent-cyan); display: flex; align-items: center; gap: 10px; padding: 10px 25px; margin-left: 10px;">
+                <span style="font-size: 1.2rem;">🤖</span> Chat con IA
+            </button>
+        </div>
+    </nav>
+
+    <section class="hero" id="hero">
+        <div class="hero-card reveal">
+            <p class="motto">TU RUTA, SIN LÍMITES</p>
+            <h1>RUTAGO</h1>
+            <div class="hero-description">
+                RutaGO se encuentra actualmente en una fase intensiva de desarrollo técnico y estratégico. Contamos con un equipo dedicado de desarrolladores, expertos en movilidad y especialistas en IA que trabajan día tras día para asegurar que cada ubicación GPS sea precisa y cada pago digital sea 100% seguro. Estamos construyendo el futuro del transporte en Barranquilla con los más altos estándares de calidad y funcionalidad.
+            </div>
+            <div class="hero-actions">
+                <a href="#servicios" class="cta-button">Ver Servicios</a>
+                <a href="#contacto" class="cta-button" style="background: transparent; border: 2px solid var(--accent-cyan); color: var(--accent-cyan); box-shadow: none;">Contáctanos</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="status">
+        <div style="text-align: center; max-width: 900px; margin: 0 auto;">
+            <h2 id="process-title" class="reveal" style="font-size: 5rem; margin-bottom: 20px; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">EN PROCESO</h2>
+            <p id="process-text" class="reveal" style="font-size: 1.4rem; color: var(--text-secondary); line-height: 1.8; font-weight: 300;">
+                RutaGO se encuentra en una etapa de desarrollo crítico bajo la supervisión de un equipo profesional de ingeniería y diseño. Estamos trabajando meticulosamente en la arquitectura de red, la precisión de los algoritmos de IA y la seguridad de los sistemas de pago para garantizar una aplicación robusta, intuitiva y capaz de transformar la movilidad en Barranquilla desde el primer día.
+            </p>
+        </div>
+    </section>
+
+    <script>
+        // Efecto de texto que se ordena (Shuffle)
+        function shuffleText(element, finalSpeed = 30) {
+            const originalText = element.innerText;
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let iteration = 0;
+            
+            const interval = setInterval(() => {
+                element.innerText = originalText.split("")
+                    .map((char, index) => {
+                        if(index < iteration) return originalText[index];
+                        return characters[Math.floor(Math.random() * 26)];
+                    })
+                    .join("");
+                
+                if(iteration >= originalText.length) clearInterval(interval);
+                iteration += 1 / 3;
+            }, finalSpeed);
+        }
+
+        // Trigger the effect when visible
+        const processObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    if(entry.target.id === 'process-title') shuffleText(entry.target, 50);
+                    processObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            processObserver.observe(document.getElementById('process-title'));
+        });
+    </script>
+
+    <section id="servicios">
+        <div class="section-header reveal">
+            <h2>Nuestros Servicios</h2>
+            <div class="divider"></div>
+        </div>
+        <div class="services-grid">
+            <div class="service-card reveal">
+                <span class="service-icon">📍</span>
+                <h3>Ubica tu bus</h3>
+                <p>Información en tiempo real sobre la ubicación exacta de los buses mediante tecnología GPS. Planifica sin esperas.</p>
+            </div>
+            <div class="service-card reveal">
+                <span class="service-icon">💳</span>
+                <h3>Paga sin efectivo</h3>
+                <p>Sistema de pago digital integrado para un acceso rápido, seguro y moderno al transporte público.</p>
+            </div>
+            <div class="service-card reveal">
+                <span class="service-icon">🧠</span>
+                <h3>IA que te guía</h3>
+                <p>Análisis inteligente de tráfico y demanda para ofrecerte las rutas más eficientes y recomendaciones personalizadas.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="nosotros">
+        <div class="about-flex">
+            <div class="about-image reveal">
+                <img src="https://bqsirqeeisourqfryzsq.supabase.co/storage/v1/object/public/images/news/1744675751698.jpg" alt="Transporte Barranquilla">
+            </div>
+            <div class="about-content reveal">
+                <h2>Innovación en Barranquilla</h2>
+                <p>RutaGO nace de la necesidad de mejorar la experiencia de los colombianos en el transporte publico, con el objetivo de optimizar el sistema de transporte y contribuir al desarrollo de una ciudad inteligente.</p>
+                <p>Nuestra tecnología analiza patrones de movilidad para que tú solo te preocupes por llegar a tu destino de la manera más cómoda y segura.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto">
+        <div class="section-header reveal">
+            <h2>Contacto</h2>
+            <div class="divider"></div>
+        </div>
+        <div class="contact-container reveal">
+            <div class="contact-info">
+                <h3>Infórmate</h3>
+                <p>Estamos en etapa de desarrollo, listos para escucharte.</p>
+                <p><strong>📍 Ciudad:</strong> Barranquilla, Colombia</p>
+                <p><strong>📞 Teléfono:</strong> 3013543512</p>
+                <p><strong>📧 Email:</strong> IRutaGO@outlook.es</p>
+                <p><strong>⏰ Atención:</strong> Lun-Vie (3 PM+) / Fines de semana (24h)</p>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: center;">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfwnLa_4A4VAp_3acQXHLOI4Hz7jnl8lFzg5zlyOARzzuY-Fw/viewform?usp=header" target="_blank" class="cta-button" style="text-align: center;">Formulario de satisfacción</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chat IA -->
+    <div id="ai-chat-window" class="ai-chat-hidden">
+        <div class="chat-header">
+            <div class="chat-title">
+                <span>🤖</span> RutaGO IA
+            </div>
+            <button id="close-chat" class="close-btn">&times;</button>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="message ai">¡Hola! Soy la IA de RutaGO. ¿En qué te puedo ayudar sobre nuestro proyecto?</div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chat-input" placeholder="Pregunta sobre RutaGO..." autocomplete="off">
+            <button id="send-chat" class="send-btn">➤</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 RutaGO. Todos los derechos reservados. Diseñado para mejorar tu dia a dia y el futuro de nuestra ciudad.</p>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Reveal animations
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Counter animation
+        const counters = document.querySelectorAll('.counter');
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target;
+                    const target = +counter.getAttribute('data-target');
+                    const count = +counter.innerText;
+                    const speed = 200;
+                    const inc = target / speed;
+
+                    const updateCount = () => {
+                        const current = +counter.innerText;
+                        if (current < target) {
+                            counter.innerText = Math.ceil(current + inc);
+                            setTimeout(updateCount, 1);
+                        } else {
+                            counter.innerText = target + (target > 99 ? '+' : '');
+                        }
+                    };
+                    updateCount();
+                    counterObserver.unobserve(counter);
+                }
+            });
+        }, { threshold: 1.0 });
+
+        counters.forEach(c => counterObserver.observe(c));
+
+        // Parallax effect on hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            hero.style.backgroundPositionY = -(scrolled * 0.5) + 'px';
+        });
+
+        // Stagger logic (manual for cards)
+        document.querySelectorAll('.services-grid .service-card').forEach((card, i) => {
+            card.style.transitionDelay = (i * 0.1) + 's';
+        });
+
+        // Lógica del Chat IA
+        const chatBtn = document.getElementById('ai-chat-btn');
+        const chatWindow = document.getElementById('ai-chat-window');
+        const closeChatBtn = document.getElementById('close-chat');
+        const chatInput = document.getElementById('chat-input');
+        const sendChatBtn = document.getElementById('send-chat');
+        const chatMessages = document.getElementById('chat-messages');
+
+        // Toggle Chat
+        if(chatBtn) {
+            chatBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                chatWindow.classList.remove('ai-chat-hidden');
+                chatInput.focus();
+            });
+        }
+
+        closeChatBtn.addEventListener('click', () => {
+            chatWindow.classList.add('ai-chat-hidden');
+        });
+
+        // Respuestas de la IA
+        function getAIResponse(text) {
+            text = text.toLowerCase();
+            
+            // Base de conocimientos de RutaGO
+            if (text.includes('qué es') || text.includes('que es') || text.includes('proyecto')) {
+                return "RutaGO es una aplicación innovadora para revolucionar el transporte público en Barranquilla, ofreciendo rastreo GPS, pagos digitales y recomendaciones con IA.";
+            }
+            if (text.includes('servicio') || text.includes('ofrecen')) {
+                return "Nuestros servicios principales son: Ubicación de buses en tiempo real mediante GPS, Pagos sin efectivo digitales, y Análisis de tráfico con Inteligencia Artificial.";
+            }
+            if (text.includes('contacto') || text.includes('telefono') || text.includes('teléfono') || text.includes('email') || text.includes('correo')) {
+                return "Puedes contactarnos al teléfono 3013543512, por email a IRutaGO@outlook.es, o encontrarnos en Barranquilla. Atendemos Lun-Vie desde las 3 PM y Fines de semana las 24h.";
+            }
+            if (text.includes('pago') || text.includes('pagar') || text.includes('efectivo') || text.includes('tarjeta')) {
+                return "Con RutaGO podrás pagar tu pasaje digitalmente de forma rápida y 100% segura, sin necesidad de cargar efectivo.";
+            }
+            if (text.includes('barranquilla')) {
+                return "Sí, RutaGO está diseñado específicamente para mejorar y modernizar la experiencia de movilidad en Barranquilla, Colombia.";
+            }
+            if (text.includes('hola') || text.includes('saludos') || text.includes('buenas')) {
+                return "¡Hola! Soy tu asistente de RutaGO. Pregúntame sobre nuestros servicios, contacto o cualquier duda del proyecto.";
+            }
+            if (text.includes('cuando') || text.includes('cuándo') || text.includes('lanzamiento') || text.includes('estado')) {
+                return "Actualmente estamos en una fase intensiva de desarrollo crítico, perfeccionando nuestros algoritmos de IA y la seguridad de los pagos. ¡Pronto estaremos listos!";
+            }
+            
+            // Default
+            return "Interesante pregunta. RutaGO está en pleno desarrollo para mejorar el transporte en Barranquilla. Puedes contactarnos o usar el formulario de satisfacción para dejar más detalles.";
+        }
+
+        function addMessage(text, sender) {
+            const div = document.createElement('div');
+            div.classList.add('message', sender);
+            div.textContent = text;
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function handleSend() {
+            const text = chatInput.value.trim();
+            if (!text) return;
+            
+            addMessage(text, 'user');
+            chatInput.value = '';
+            
+            // Simular "escribiendo..." o delay de red
+            setTimeout(() => {
+                const response = getAIResponse(text);
+                addMessage(response, 'ai');
+            }, 600);
+        }
+
+        sendChatBtn.addEventListener('click', handleSend);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleSend();
+        });
+
+    </script>
+</body>
+</html>
